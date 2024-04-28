@@ -12,4 +12,6 @@
     <string name="enter_name_text">Enter name</string>
     <string name="enter_amount_text">Enter amount</string>
     <string name="enter_narration_text">Enter narration</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

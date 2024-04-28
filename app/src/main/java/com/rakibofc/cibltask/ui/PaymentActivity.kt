@@ -1,5 +1,6 @@
 package com.rakibofc.cibltask.ui
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.StringRes
@@ -38,7 +39,8 @@ class PaymentActivity : AppCompatActivity() {
             String.format(getString(R.string.payment_s_name_text), paymentMethodName)
 
         binding.btnSubmit.setOnClickListener {
-            submitForm()
+            // submitForm()
+            showTransactionDialog()
         }
     }
 
@@ -68,6 +70,14 @@ class PaymentActivity : AppCompatActivity() {
             showError(binding.inputNarration, R.string.enter_narration_text)
             return
         }
+
+        showTransactionDialog()
+    }
+
+    private fun showTransactionDialog() {
+
+        val transactionReceiptFragment = TransactionReceiptFragment()
+        transactionReceiptFragment.show(supportFragmentManager, "Dialog")
     }
 
     private fun showError(view: View, @StringRes errorMessageResId: Int) {
