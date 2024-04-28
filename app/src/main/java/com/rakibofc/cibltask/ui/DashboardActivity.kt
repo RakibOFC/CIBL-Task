@@ -2,6 +2,7 @@ package com.rakibofc.cibltask.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.rakibofc.cibltask.R
@@ -20,6 +21,8 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(v: View?) {
+
+        Log.e("TAG", "onClick: ")
 
         val intent = Intent(applicationContext, PaymentActivity::class.java)
 

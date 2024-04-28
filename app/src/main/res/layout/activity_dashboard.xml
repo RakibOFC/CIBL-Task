@@ -30,40 +30,32 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/mcvBkash"
+            style="@style/MaterialCardViewStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_10sdp"
-            app:cardCornerRadius="@dimen/_15sdp"
-            app:cardElevation="1dp"
-            app:strokeColor="@color/border">
+            android:layout_margin="@dimen/_10sdp">
 
-            <androidx.appcompat.widget.AppCompatImageButton
+            <androidx.appcompat.widget.AppCompatImageView
+                style="@style/AppCompatImageViewStyle"
                 android:layout_width="@dimen/_180sdp"
                 android:layout_height="@dimen/_80sdp"
-                android:adjustViewBounds="true"
-                android:background="@drawable/click_effect"
                 android:contentDescription="@string/nagad_logo_text"
-                android:scaleType="centerInside"
                 android:src="@drawable/logo_bkash_tp" />
 
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/mcvNagad"
+            style="@style/MaterialCardViewStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_10sdp"
-            app:cardCornerRadius="@dimen/_15sdp"
-            app:cardElevation="1dp"
-            app:strokeColor="@color/border">
+            android:layout_margin="@dimen/_10sdp">
 
-            <androidx.appcompat.widget.AppCompatImageButton
+            <androidx.appcompat.widget.AppCompatImageView
+                style="@style/AppCompatImageViewStyle"
                 android:layout_width="@dimen/_180sdp"
                 android:layout_height="@dimen/_80sdp"
-                android:adjustViewBounds="true"
-                android:background="@drawable/click_effect"
                 android:contentDescription="@string/nagad_logo_text"
-                android:scaleType="centerInside"
                 android:src="@drawable/logo_nagad_tp" />
 
         </com.google.android.material.card.MaterialCardView>
