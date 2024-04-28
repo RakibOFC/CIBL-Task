@@ -3,4 +3,13 @@
     <string name="dashboard_text">Dashboard</string>
     <string name="bkash_logo_text">Bkash Logo</string>
     <string name="nagad_logo_text">Nagad Logo</string>
+    <string name="payment_method_logo_text">Payment Method Logo</string>
+    <string name="submit_text">Submit</string>
+    <string name="narration_text">Narration</string>
+    <string name="payment_s_name_text">%s Name</string>
+    <string name="payment_s_phone_text">%s Phone</string>
+    <string name="enter_phone_no_text">Enter phone no</string>
+    <string name="enter_name_text">Enter name</string>
+    <string name="enter_amount_text">Enter amount</string>
+    <string name="enter_narration_text">Enter narration</string>
 </resources>
