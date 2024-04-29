@@ -26,4 +26,6 @@
     <string name="payment_s_number_text">%s Number</string>
     <string name="download_receipt_text">Download Receipt</string>
     <string name="address_text">Address</string>
+    <string name="permission_denied_message">Permission denied! Please allow file permission.</string>
+    <string name="download_successfully_message">Download Successfully! %s</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.rakibofc.cibltask.ui
 
+import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.Paint
@@ -8,18 +9,16 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import com.rakibofc.cibltask.R
 import com.rakibofc.cibltask.databinding.FragmentTransactionReceiptBinding
 import com.rakibofc.cibltask.model.TransactionDetails
-import com.rakibofc.cibltask.util.Values
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -50,39 +49,46 @@ class TransactionReceiptFragment : DialogFragment() {
         binding = FragmentTransactionReceiptBinding.inflate(inflater, container, false)
 
         binding.btnDownload.setOnClickListener {
-            downloadAsPdf()
+            requestForDownloadReceipt()
         }
 
         return binding.root
     }
 
-    private fun downloadAsPdf() {
-
+    private fun requestForDownloadReceipt() {
         if (Build.VERSION.SDK_INT >= 33)
-        // convertXmlToPdf()
             downloadPdf()
-        else
-            requestForFilePermission()
+        else {
+            if (hasFileWritePermission())
+                downloadPdf()
+            else {
+                requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            }
+        }
     }
 
-    private fun requestForFilePermission() {
+    // Method to check file write permission
+    private fun hasFileWritePermission(): Boolean {
+        return ContextCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        ) == PackageManager.PERMISSION_GRANTED
+    }
 
-        if (ContextCompat.checkSelfPermission(
-                requireContext(),
-                android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            // Request the permission
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                Values.FILE_PERMISSION_REQUEST_CODE
-            )
-        } else {
-            // Permission is already granted, proceed with file write
-            // convertXmlToPdf()
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            // Permission is granted
             downloadPdf()
+        } else {
+            // Permission denied
+            showToast(getString(R.string.permission_denied_message))
         }
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
     }
 
     @Suppress("DEPRECATION")
@@ -142,13 +148,17 @@ class TransactionReceiptFragment : DialogFragment() {
             document.close()
             fos.close()
             // PDF conversion successful
-            Toast.makeText(requireContext(), "Download Successfully", Toast.LENGTH_LONG).show()
-
+            showToast(
+                String.format(
+                    getString(R.string.download_successfully_message),
+                    filePath.absoluteFile.toString()
+                )
+            )
         } catch (e: IOException) {
-            Log.e("TAG", e.message.toString())
-            Toast.makeText(requireContext(), e.message, Toast.LENGTH_SHORT).show()
+            showToast(e.message.toString())
         }
 
+        // Dismiss alert dialog after download receipt
         dismiss()
     }
 
@@ -170,21 +180,5 @@ class TransactionReceiptFragment : DialogFragment() {
 
     override fun getTheme(): Int {
         return R.style.TransactionReceiptDialog
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int, permissions: Array<String>, grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-        if (requestCode == Values.FILE_PERMISSION_REQUEST_CODE) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission granted, proceed with file write
-                downloadPdf()
-            } else {
-                // Permission denied, show a message or handle it gracefully
-                Toast.makeText(requireContext(), "Permission denied", Toast.LENGTH_SHORT).show()
-            }
-        }
     }
 }
