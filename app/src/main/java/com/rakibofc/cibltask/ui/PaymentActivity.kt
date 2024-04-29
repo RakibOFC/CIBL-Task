@@ -121,7 +121,7 @@ class PaymentActivity : AppCompatActivity() {
             currentLocation()
         } else {
             // If user press OKAY button the dialog will be dismiss;  Request for permission
-            locationPermissionResult.launch(Manifest.permission.ACCESS_FINE_LOCATION);
+            locationPermissionResult.launch(Manifest.permission.ACCESS_FINE_LOCATION)
         }
     }
 

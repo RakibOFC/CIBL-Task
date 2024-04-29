@@ -65,6 +65,10 @@ class TransactionReceiptFragment : DialogFragment() {
         binding.btnDownload.setOnClickListener {
             requestForDownloadReceipt()
         }
+        binding.btnShare.setOnClickListener {
+            requestForDownloadReceipt()
+            sharePdf()
+        }
 
         return binding.root
     }
@@ -201,6 +205,25 @@ class TransactionReceiptFragment : DialogFragment() {
 
         // Dismiss alert dialog after download receipt
         dismiss()
+    }
+
+    private fun sharePdf() {
+
+        val downloadsDir =
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        val fileName = "Transaction Receipt.pdf"
+        val filePath = File(downloadsDir, fileName)
+
+        // Create an Intent to share the PDF file
+        val shareIntent = Intent(Intent.ACTION_SEND)
+        shareIntent.type = "application/pdf"
+        shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(filePath))
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+
+        // Provide a chooser to let the user choose an application to share the PDF file
+        val chooserIntent = Intent.createChooser(shareIntent, "Share PDF via...")
+        chooserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(chooserIntent)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
