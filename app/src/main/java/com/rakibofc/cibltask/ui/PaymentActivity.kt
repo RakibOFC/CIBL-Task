@@ -1,6 +1,5 @@
 package com.rakibofc.cibltask.ui
 
-import android.app.Dialog
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.StringRes
@@ -8,11 +7,13 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputEditText
 import com.rakibofc.cibltask.R
 import com.rakibofc.cibltask.databinding.ActivityPaymentBinding
+import com.rakibofc.cibltask.model.TransactionDetails
 import com.rakibofc.cibltask.util.Values
 
 class PaymentActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPaymentBinding
+    private var paymentMethod: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,15 +21,15 @@ class PaymentActivity : AppCompatActivity() {
         binding = ActivityPaymentBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val paymentMethod = intent.getStringExtra(Values.PAYMENT_METHOD_KEY)
+        paymentMethod = intent.getStringExtra(Values.PAYMENT_METHOD_KEY)
         val paymentMethodLogo: Int
         val paymentMethodName: String
 
         if (paymentMethod.equals(Values.PAYMENT_METHOD_BKASH)) {
-            paymentMethodLogo = R.drawable.logo_bkash_tp
+            paymentMethodLogo = R.drawable.logo_bkash
             paymentMethodName = "bKash"
         } else {
-            paymentMethodLogo = R.drawable.logo_nagad_tp
+            paymentMethodLogo = R.drawable.logo_nagad
             paymentMethodName = "Nagad"
         }
 
@@ -40,7 +41,13 @@ class PaymentActivity : AppCompatActivity() {
 
         binding.btnSubmit.setOnClickListener {
             // submitForm()
-            showTransactionDialog()
+            showTransactionDialog(
+                TransactionDetails(
+                    "", "", 0.0, "",
+                    paymentMethod,
+                    "Dhaka"
+                )
+            )
         }
     }
 
@@ -71,13 +78,22 @@ class PaymentActivity : AppCompatActivity() {
             return
         }
 
-        showTransactionDialog()
+        val transactionDetails = TransactionDetails(
+            inputPhone,
+            inputName,
+            inputAmount.toDouble(),
+            inputNarration,
+            paymentMethod,
+            "Dhaka"
+        )
+
+        showTransactionDialog(transactionDetails)
     }
 
-    private fun showTransactionDialog() {
+    private fun showTransactionDialog(transactionDetails: TransactionDetails) {
 
-        val transactionReceiptFragment = TransactionReceiptFragment()
-        transactionReceiptFragment.show(supportFragmentManager, "Dialog")
+        val transactionReceiptFragment = TransactionReceiptFragment.newInstance(transactionDetails)
+        transactionReceiptFragment.show(supportFragmentManager, TransactionReceiptFragment.TAG)
     }
 
     private fun showError(view: View, @StringRes errorMessageResId: Int) {

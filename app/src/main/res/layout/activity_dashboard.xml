@@ -40,7 +40,7 @@
                 android:layout_width="@dimen/_180sdp"
                 android:layout_height="@dimen/_80sdp"
                 android:contentDescription="@string/nagad_logo_text"
-                android:src="@drawable/logo_bkash_tp" />
+                android:src="@drawable/logo_bkash" />
 
         </com.google.android.material.card.MaterialCardView>
 
@@ -56,7 +56,7 @@
                 android:layout_width="@dimen/_180sdp"
                 android:layout_height="@dimen/_80sdp"
                 android:contentDescription="@string/nagad_logo_text"
-                android:src="@drawable/logo_nagad_tp" />
+                android:src="@drawable/logo_nagad" />
 
         </com.google.android.material.card.MaterialCardView>
 

@@ -14,4 +14,16 @@
     <string name="enter_narration_text">Enter narration</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="community_bank_logo_text">Community Bank Logo</string>
+    <string name="community_bank_address">Police Plaza Concord (Level 10, Tower 2) Plot 2, Road 144, Gulshan 1</string>
+    <string name="s_fund_transfer_text">%s Fund Transfer</string>
+    <string name="transaction_receipt_text">Community Cash\nTransaction Receipt</string>
+    <string name="transaction_info_text">Transaction Info</string>
+    <string name="amount_text">Amount</string>
+    <string name="transaction_date_time_text">Transaction Date Time</string>
+    <string name="total_text">Total</string>
+    <string name="bdt_d_text">BDT %d</string>
+    <string name="payment_s_number_text">%s Number</string>
+    <string name="download_receipt_text">Download Receipt</string>
+    <string name="address_text">Address</string>
 </resources>
