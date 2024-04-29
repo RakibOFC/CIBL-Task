@@ -13,7 +13,7 @@ import com.rakibofc.cibltask.util.Values
 class PaymentActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPaymentBinding
-    private var paymentMethod: String? = null
+    private var paymentMethodName =" "
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,9 +21,8 @@ class PaymentActivity : AppCompatActivity() {
         binding = ActivityPaymentBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        paymentMethod = intent.getStringExtra(Values.PAYMENT_METHOD_KEY)
+        val paymentMethod = intent.getStringExtra(Values.PAYMENT_METHOD_KEY)
         val paymentMethodLogo: Int
-        val paymentMethodName: String
 
         if (paymentMethod.equals(Values.PAYMENT_METHOD_BKASH)) {
             paymentMethodLogo = R.drawable.logo_bkash
@@ -40,14 +39,14 @@ class PaymentActivity : AppCompatActivity() {
             String.format(getString(R.string.payment_s_name_text), paymentMethodName)
 
         binding.btnSubmit.setOnClickListener {
-            // submitForm()
-            showTransactionDialog(
+            submitForm()
+            /*showTransactionDialog(
                 TransactionDetails(
                     "", "", 0.0, "",
                     paymentMethod,
                     "Dhaka"
                 )
-            )
+            )*/
         }
     }
 
@@ -83,7 +82,7 @@ class PaymentActivity : AppCompatActivity() {
             inputName,
             inputAmount.toDouble(),
             inputNarration,
-            paymentMethod,
+            paymentMethodName,
             "Dhaka"
         )
 

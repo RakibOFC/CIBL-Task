@@ -23,6 +23,9 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.Serializable
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class TransactionReceiptFragment : DialogFragment() {
 
@@ -48,11 +51,44 @@ class TransactionReceiptFragment : DialogFragment() {
 
         binding = FragmentTransactionReceiptBinding.inflate(inflater, container, false)
 
+        initDataInView()
+
+        binding.btnClose.setOnClickListener {
+            dismiss()
+        }
+
         binding.btnDownload.setOnClickListener {
             requestForDownloadReceipt()
         }
 
         return binding.root
+    }
+
+    private fun initDataInView() {
+        val dateTimeFormat = SimpleDateFormat("yyyy-MM-dd hh:mm a", Locale.ENGLISH)
+
+        // Set payment method logo
+        binding.ivMethodLogo.setImageResource(
+            if (transactionDetails.paymentMethod == "bKash") R.drawable.logo_bkash else R.drawable.logo_nagad
+        )
+
+        // Payment method name with "Fund transfer" text
+        binding.tvFundTransfer.text =
+            getString(R.string.s_fund_transfer_text, transactionDetails.paymentMethod)
+
+        binding.tvMethodNumber.text =
+            getString(R.string.payment_s_number_text, transactionDetails.paymentMethod)
+
+        binding.tvPhoneNo.text = transactionDetails.phone
+        binding.tvAmount.text = transactionDetails.amount.toString()
+        binding.tvTnDateTime.text = dateTimeFormat.format(Date())
+        binding.tvNarration.text = transactionDetails.narration
+        binding.tvMethodName.text =
+            getString(R.string.payment_s_name_text, transactionDetails.paymentMethod)
+        binding.tvPersonName.text = transactionDetails.name
+        binding.tvAddress.text = transactionDetails.address
+        binding.tvTotalAmount.text =
+            getString(R.string.bdt_s_text, transactionDetails.amount.toString())
     }
 
     private fun requestForDownloadReceipt() {
@@ -115,8 +151,8 @@ class TransactionReceiptFragment : DialogFragment() {
         val document = PdfDocument()
 
         // Obtain the width and height of the view
-        val viewWidth = rvAyahHighlightList.measuredWidth;
-        val viewHeight = rvAyahHighlightList.measuredHeight;
+        val viewWidth = rvAyahHighlightList.measuredWidth
+        val viewHeight = rvAyahHighlightList.measuredHeight
 
         val pageInfo = PdfDocument.PageInfo.Builder(viewWidth, viewHeight, 1).create()
 

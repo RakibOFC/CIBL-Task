@@ -22,7 +22,7 @@
     <string name="amount_text">Amount</string>
     <string name="transaction_date_time_text">Transaction Date Time</string>
     <string name="total_text">Total</string>
-    <string name="bdt_d_text">BDT %d</string>
+    <string name="bdt_s_text">BDT %s</string>
     <string name="payment_s_number_text">%s Number</string>
     <string name="download_receipt_text">Download Receipt</string>
     <string name="address_text">Address</string>

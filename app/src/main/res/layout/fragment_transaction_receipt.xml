@@ -36,14 +36,14 @@
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivMethodLogo"
                     android:layout_width="@dimen/_100sdp"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/logo_bkash" />
+                    android:scaleType="centerInside" />
 
                 <TextView
-                    android:id="@+id/text1"
+                    android:id="@+id/tvFundTransfer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/s_fund_transfer_text" />
@@ -107,6 +107,7 @@
                 android:layout_height="wrap_content">
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvMethodNumber"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
@@ -195,6 +196,7 @@
                 android:layout_height="wrap_content">
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvMethodName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
@@ -257,7 +259,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:padding="@dimen/_3sdp"
-                    android:text="@string/bdt_d_text"
+                    android:text="@string/bdt_s_text"
                     android:textAlignment="textEnd"
                     android:textStyle="bold" />
 
