@@ -1,13 +1,17 @@
 package com.rakibofc.cibltask.ui
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.pdf.PdfDocument
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.provider.MediaStore
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
@@ -26,6 +30,7 @@ import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+
 
 class TransactionReceiptFragment : DialogFragment() {
 
