@@ -8,6 +8,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -144,6 +145,7 @@ class TransactionReceiptFragment : DialogFragment() {
             Toast.makeText(requireContext(), "Download Successfully", Toast.LENGTH_LONG).show()
 
         } catch (e: IOException) {
+            Log.e("TAG", e.message.toString())
             Toast.makeText(requireContext(), e.message, Toast.LENGTH_SHORT).show()
         }
 
