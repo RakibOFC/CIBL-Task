@@ -1,17 +1,12 @@
 package com.rakibofc.cibltask.ui
 
 import android.Manifest
-import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.pdf.PdfDocument
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Environment
-import android.provider.MediaStore
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
@@ -20,17 +15,16 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.lifecycleScope
 import com.rakibofc.cibltask.R
 import com.rakibofc.cibltask.databinding.FragmentTransactionReceiptBinding
 import com.rakibofc.cibltask.model.TransactionDetails
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
+import com.rakibofc.cibltask.util.FileHandler
+import kotlinx.coroutines.launch
 import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-
 
 class TransactionReceiptFragment : DialogFragment() {
 
@@ -39,7 +33,7 @@ class TransactionReceiptFragment : DialogFragment() {
 
     companion object {
         private const val ARG_TRANSACTION_DETAILS = "transaction_details"
-        const val TAG = "TransactionReceiptDialogFragment"
+        const val TAG = "ReceiptDialogFragment"
 
         fun newInstance(transactionDetails: TransactionDetails) =
             TransactionReceiptFragment().apply {
@@ -63,11 +57,10 @@ class TransactionReceiptFragment : DialogFragment() {
         }
 
         binding.btnDownload.setOnClickListener {
-            requestForDownloadReceipt()
+            requestForDownloadReceipt(false)
         }
         binding.btnShare.setOnClickListener {
-            requestForDownloadReceipt()
-            sharePdf()
+            requestForDownloadReceipt(true)
         }
 
         return binding.root
@@ -78,7 +71,8 @@ class TransactionReceiptFragment : DialogFragment() {
 
         // Set payment method logo
         binding.ivMethodLogo.setImageResource(
-            if (transactionDetails.paymentMethod == "bKash") R.drawable.logo_bkash else R.drawable.logo_nagad
+            if (transactionDetails.paymentMethod == "bKash") R.drawable.logo_bkash
+            else R.drawable.logo_nagad
         )
 
         // Payment method name with "Fund transfer" text
@@ -100,12 +94,12 @@ class TransactionReceiptFragment : DialogFragment() {
             getString(R.string.bdt_s_text, transactionDetails.amount.toString())
     }
 
-    private fun requestForDownloadReceipt() {
-        if (Build.VERSION.SDK_INT >= 33)
-            downloadPdf()
+    private fun requestForDownloadReceipt(isShareable: Boolean) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+            downloadPdf(isShareable)
         else {
             if (hasFileWritePermission())
-                downloadPdf()
+                downloadPdf(isShareable)
             else {
                 requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
             }
@@ -125,7 +119,7 @@ class TransactionReceiptFragment : DialogFragment() {
     ) { isGranted: Boolean ->
         if (isGranted) {
             // Permission is granted
-            downloadPdf()
+            downloadPdf(true)
         } else {
             // Permission denied
             showToast(getString(R.string.permission_denied_message))
@@ -137,7 +131,7 @@ class TransactionReceiptFragment : DialogFragment() {
     }
 
     @Suppress("DEPRECATION")
-    private fun downloadPdf() {
+    private fun downloadPdf(isShareable: Boolean) {
 
         // Inflate the XML layout file
         val rvAyahHighlightList = binding.llcTransactionContainer.rootView
@@ -181,49 +175,12 @@ class TransactionReceiptFragment : DialogFragment() {
         // Finish the page
         document.finishPage(page)
 
-        val downloadsDir =
-            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-        val fileName = "Transaction Receipt.pdf"
-        val filePath = File(downloadsDir, fileName)
-
-        try {
-            // Save the document to a file
-            val fos = FileOutputStream(filePath)
-            document.writeTo(fos)
-            document.close()
-            fos.close()
-            // PDF conversion successful
-            showToast(
-                String.format(
-                    getString(R.string.download_successfully_message),
-                    filePath.absoluteFile.toString()
-                )
-            )
-        } catch (e: IOException) {
-            showToast(e.message.toString())
+        lifecycleScope.launch {
+            FileHandler.savePdfFile(requireContext(), document, isShareable)
         }
 
         // Dismiss alert dialog after download receipt
         dismiss()
-    }
-
-    private fun sharePdf() {
-
-        val downloadsDir =
-            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-        val fileName = "Transaction Receipt.pdf"
-        val filePath = File(downloadsDir, fileName)
-
-        // Create an Intent to share the PDF file
-        val shareIntent = Intent(Intent.ACTION_SEND)
-        shareIntent.type = "application/pdf"
-        shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(filePath))
-        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-
-        // Provide a chooser to let the user choose an application to share the PDF file
-        val chooserIntent = Intent.createChooser(shareIntent, "Share PDF via...")
-        chooserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        startActivity(chooserIntent)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

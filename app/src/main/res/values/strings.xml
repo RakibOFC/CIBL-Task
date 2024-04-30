@@ -12,8 +12,6 @@
     <string name="enter_name_text">Enter name</string>
     <string name="enter_amount_text">Enter amount</string>
     <string name="enter_narration_text">Enter narration</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="community_bank_logo_text">Community Bank Logo</string>
     <string name="community_bank_address">Police Plaza Concord (Level 10, Tower 2) Plot 2, Road 144, Gulshan 1</string>
     <string name="s_fund_transfer_text">%s Fund Transfer</string>
@@ -28,5 +26,5 @@
     <string name="address_text">Address</string>
     <string name="permission_denied_message">Permission denied! Please allow file permission.</string>
     <string name="location_permission_denied_message">Location permission denied!</string>
-    <string name="download_successfully_message">Download Successfully! %s</string>
+    <string name="save_message">Saved: %s</string>
 </resources>
