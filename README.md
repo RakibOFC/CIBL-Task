@@ -30,9 +30,9 @@ Once installed, follow these instructions to use the CIBL-Task application:
    - **Share**: Share the transaction receipt with others.
 
 ### Sample Transaction Receipt
-
-![Transaction Receipt](https://raw.githubusercontent.com/RakibOFC/CIBL-Task/main/files/Transaction_Recipt.jpeg)
+<img src="https://raw.githubusercontent.com/RakibOFC/CIBL-Task/main/files/Transaction_Recipt.jpeg" width="384" height="850">
 
 ### Video Instruction
 
 For a visual guide on using the CIBL-Task application, watch the provided video instruction. [Watch Video](https://raw.githubusercontent.com/RakibOFC/CIBL-Task/main/files/CIBL-Task-Instruction.mp4)
+<img src="https://raw.githubusercontent.com/RakibOFC/CIBL-Task/main/files/CIBL-Task-Instruction.gif" width="384" height="850">
